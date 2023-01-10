@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="password">
+                </div>
+                <button onclick="LogIn(this)" type="button" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        function LogIn() {
+            $.ajax({
+                type: 'POST',
+                data: $("#loginForm").serialize(),
+                url: 'Home/LogIn',
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (data) {
+                    let status = '';
+                    let heading = ''
+                    let text = ''
+                    if (!data.ResultCode) {
+                        heading = 'Success'
+                        status = heading.toLowerCase();
+                        text = `
+                            Address: ${data.Address}, 
+                            City: ${data.City}, 
+                            Company: ${data.Company}, 
+                            FirstName: ${data.FirstName}, 
+                            LastName: ${data.LastName}, 
+                            Mobile: ${data.Mobile}, 
+                        `; 
+                    }
+                    else if (data.ResultCode === -1) {
+                        heading = 'Error'
+                        status = heading.toLowerCase();
+                        text = data.ResultMessage;
+                    }
+                    $.toast({
+                        heading,
+                        text,
+                        position: 'top-center',
+                        stack: true,
+                        icon: status,
+                        hideAfter: 10000
+                    })
+                }
+            });
+        }
+    </script>
+}
