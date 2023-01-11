@@ -1,0 +1,16 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/styles/libs-css.css",
+    "inputFiles": [
+      "wwwroot/css/site.css",
+      "wwwroot/css/basic.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/scripts/libs-js.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/js/site.js"
+    ]
+  }
+]

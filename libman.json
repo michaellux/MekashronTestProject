@@ -5,6 +5,11 @@
     {
       "library": "jquery-toast-plugin@1.3.2",
       "destination": "wwwroot/lib/jquery-toast-plugin/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "gulp-purgecss@5.0.0",
+      "destination": "wwwroot/lib/gulp-purgecss/"
     }
   ]
 }

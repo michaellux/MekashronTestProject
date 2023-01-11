@@ -19,46 +19,66 @@
     </div>
 </div>
 
+<div class="position-fixed top-50 start-0 translate-middle-y" style="z-index: 11">
+    <div id="toastResult" class="toast hide text-white" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Bootstrap</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        </div>
+        <div class="toast-body">
+            Привет, мир! Это тост-сообщение.
+        </div>
+    </div>
+</div>
+
 @section Scripts
     {
     <script>
         function LogIn() {
-            $.ajax({
-                type: 'POST',
-                data: $("#loginForm").serialize(),
-                url: 'Home/LogIn',
-                contentType: 'application/x-www-form-urlencoded',
-                success: function (data) {
+            const form = document.getElementById("loginForm");
+            let options = {
+                method: 'POST',
+                headers: {},
+                body: new FormData(form)
+            };
+            fetch('Home/LogIn', options)
+                .then(response => response.json())
+                .then(data => {
                     let status = '';
-                    let heading = ''
-                    let text = ''
+                    let heading = '';
+                    let text = '';
+
                     if (!data.ResultCode) {
-                        heading = 'Success'
-                        status = heading.toLowerCase();
+                        heading = 'bg-success'
+                        status = "Success"
                         text = `
-                            Address: ${data.Address}, 
-                            City: ${data.City}, 
-                            Company: ${data.Company}, 
-                            FirstName: ${data.FirstName}, 
-                            LastName: ${data.LastName}, 
-                            Mobile: ${data.Mobile}, 
-                        `; 
+                                        Address: ${data.Address},
+                                        City: ${data.City},
+                                        Company: ${data.Company},
+                                        FirstName: ${data.FirstName},
+                                        LastName: ${data.LastName},
+                                        Mobile: ${data.Mobile},
+                                    `;
                     }
                     else if (data.ResultCode === -1) {
-                        heading = 'Error'
-                        status = heading.toLowerCase();
+                        heading = 'bg-danger'
+                        status = "Error"
                         text = data.ResultMessage;
                     }
-                    $.toast({
-                        heading,
-                        text,
-                        position: 'top-center',
-                        stack: true,
-                        icon: status,
-                        hideAfter: 10000
-                    })
-                }
-            });
+
+                    let toast = document.querySelector("#toastResult");
+                    toast.classList.remove("bg-success");
+                    toast.classList.remove("bg-danger");
+                    toast.classList.replace("show", "hide");
+                    toast.querySelector(".me-auto").textContent = status;
+                    toast.querySelector(".toast-body").textContent = text;
+                    toast.classList.add(heading);
+                    toast.classList.replace("hide", "show");
+
+                    setTimeout(() => {
+                        toast.classList.replace("show", "hide");
+                    }, 3000);
+                });
         }
     </script>
 }

@@ -32,6 +32,8 @@ namespace MekashronTestProject.Controllers
             string password = Request.Form["password"];
             string? ip = "";
             var data = await client.LoginAsync(username, password, ip);
+
+
             return new ContentResult { Content = data.@return, ContentType = "application/json" };
         }
 

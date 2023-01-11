@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Net.Http.Headers;
 using WebMarkupMin.AspNetCore6;
 
@@ -43,7 +44,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseWebMarkupMin();
+//app.UseWebMarkupMin();
 
 app.MapControllerRoute(
     name: "default",
